@@ -1,0 +1,128 @@
+\section*{Aufgabe 1}
+\subsection*{a)}
+Schreiben Sie ein Java-Programm, das in einem String Formatspezifikationen gemäß
+\textit{java.util.Formatter}
+findet. \newline
+Erstellen Sie dazu mit der Syntax von
+\textit{java.util.regex.Pattern}
+einen regulären Ausdruck für eine solche Formatspezifikation. \newline
+Sie brauchen darin nicht zu berücksichtigen, dass bestimmte Angaben innerhalb einer Formatspezifikation
+nur bei bestimmten Konversionen erlaubt sind.
+Achten Sie aber bei argment\_index, width und precision darauf, ob der Zahlbereich bei 0 oder 1 beginnt. \newline
+\newline
+Beispieleingaben: \newline
+xxx \%d yyy\%n \newline
+xxx\%1\$d yyy \newline
+\%1\$-02.3dyyy \newline
+Wochentag: \%tA Uhrzeit: \%tT \newline
+\newline
+Beispielausgaben: \newline
+TEXT("xxx ")FORMAT("\%d")TEXT(" yyy")FORMAT("\%n") \newline
+TEXT("xxx")FORMAT("\%1\$d")TEXT(" yyy") \newline
+FORMAT("\%1\$-02.3d")TEXT("yyy") \newline
+TEXT("Wochentag:")FORMAT("\%tA")TEXT("Uhrzeit:")FORMAT("\%tT") \newline
+\newline
+
+\newpage
+\subsection*{a - Lösung}
+
+\begin{lstlisting}[label={lst:Aufgabe1a}]
+private static String formatter(String input) {
+    Pattern patternGeneral =
+            Pattern.compile(
+                    "(%([1-9]\\$)?[-+#0,(\s]?\\d*(\\.\\d)?[bBhHsScCdoxXeEfgGaA%n])"
+            );
+    Pattern patternDate =
+            Pattern.compile(
+                    "(%([1-9]\\$)?[-+#0,(\s]?\\d*[tT][HIklLMSpQZzsBbhAaCYyjmdeRTrDFc])"
+            );
+    Pattern patternLeftover =
+            Pattern.compile(
+                    "(%[-+#0,(\s]?\\d*\\D)"
+            );
+    Pattern usePattern = Pattern.compile(
+            patternGeneral.pattern()
+                    + "|" + patternDate.pattern()
+                    + "|" + patternLeftover.pattern()
+    );
+
+    var builder = new StringBuilder();
+
+    Map<String, String> parts = new TreeMap<>(Comparator.comparing(input::indexOf));
+
+    Arrays.stream(input.split(usePattern.toString()))
+            .forEach(x -> parts.put(x, "TEXT(\"" + x + "\")"));
+
+    usePattern.matcher(input).results()
+            .forEach(x -> parts.put(x.group(), "FORMAT(\"" + x.group() + "\")"));
+
+    parts.forEach((x, y) -> builder.append(y));
+
+    return builder.toString();
+}
+\end{lstlisting}
+
+Pattern realisiert anhand \href{https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html}{Java Formatter Docs}. \newline
+Anschließend wird der String in einzelne Teile zerlegt, die dann in einer Map gespeichert werden.
+Sortiert wird anhand der Position des Keys im Input-String. \newline
+Die fertige Map wird dann in einen String umgewandelt. \newline
+
+\newpage
+
+\subsection*{b)}
+Erkennen Sie mit ANTLR 4 Lexer-Regeln Zeitangaben im digitalen 12-Sunden-Format gemäß \url{https://en.wikipedia.org/wiki/12-hour_clock}.
+Beachten Sie auch die alternativen Schreibweisen 12 midnight und 12 noon. Testen Sie mit \textit{org.antlr.v4.gui.TestRig}.
+
+\subsection*{b - Lösung}
+\begin{lstlisting}[label={lst:Aufgabe1b}, style=ANTLR]
+    // TimeLexer.g4
+    lexer grammar TimeLexer;
+
+    Time12H: Default|Noon|Midnight;
+
+    fragment Default: ('12:00'|(([1-9]|'1'[01])':'[0-5][0-9]))WS[ap]'.m.';
+    fragment Noon: 'Noon'|'12 noon';
+    fragment Midnight: 'Midnight'|'12 midnight';
+
+    WS: [ \t\r\n]+ -> skip;
+\end{lstlisting}
+
+\textbf{Lexer Grammatiken beschreiben die Token, die vom Lexer erkannt werden sollen.}
+Fragmente sind Teile der Grammatik, die nicht direkt erkannt werden, sondern nur in anderen Regeln verwendet werden. \newline
+Der Ansatz hier war die Zeitangaben in drei Teile zu zerlegen: \newline
+\begin{itemize}
+    \item Default: Volle Uhrzeitangaben im klassischen `HH:MM' Format mit AM/PM Angabe
+    \item Noon: Zusätzlich die Mittagszeit `12 noon' und `Noon'
+    \item Midnight: Synchron dazu Mitternacht `12 midnight' und `Midnight'
+\end{itemize}
+Noon und Midnight sind hierbei die Ausnahme, aber vorgegeben durch die Aufgabenstellung. \newline
+
+\newpage
+
+Alternativ könnte man mehr Token beschreiben:
+\begin{lstlisting}[label={lst:Aufgabe1bV2}, style=ANTLR]
+    // TimeLexerV2.g4
+    lexer grammar TimeLexerV2;
+
+    TIME : HOUR SEPERATOR MINUTE (AM | PM)
+    | TWELVE SEPERATOR '00' (AM | PM)
+    | TWELVE 'noon'
+    | TWELVE 'midnight'
+    | 'Noon'
+    | 'Midnight';
+
+    TWELVE : '12';
+
+    HOUR : '1'[0-1]|[0-9];
+    MINUTE : [0-5][0-9];
+    SEPERATOR : ':';
+
+    AM : 'a.m.' ;
+    PM : 'p.m.' ;
+
+    WS: [ \t\r\n]+ -> skip;
+\end{lstlisting}
+Allerdings wird die Lexer Grammatik hier etwas missbraucht, da die `TIME' Regel eher als Parser Regel genutzt wird.
+Lexer Regeln sollten eigentlich nur die Token beschreiben, die vom Lexer erkannt werden sollen. \newline
+
+\newpage

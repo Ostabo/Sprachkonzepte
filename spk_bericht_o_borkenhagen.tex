@@ -1,0 +1,70 @@
+%! Author = OskarBorkenhagen
+%! Date = 21.10.2022
+
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,
+    urlcolor=blue,
+}
+
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{amber}{rgb}{1.0, 0.49, 0.0}
+
+\lstset{frame=none,
+    language=Java,
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=left,
+    numberstyle=\medium\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=4
+}
+
+% Applies only when you use it
+\lstdefinestyle{ANTLR}{
+    basicstyle=\small\ttfamily\color{black},%
+    breaklines=true,%                                      allow line breaks
+    moredelim=[s][\color{magenta}]{[}{]},% regex
+    moredelim=[s][\color{amber}]{\{}{\}},% regex
+    moredelim=*[s][\color{black}]{options}{\}},%  options in black (until trailing })
+    commentstyle={\color{gray}},%                          gray italics for comments
+    morecomment=[l]{//},%
+    emphstyle={\color{blue}},%                           and formatted in blue
+    stringstyle={\color{blue}},%                          and formatted in green
+    morekeywords={:,|,;,\&,fragment,lexer,grammar,parser,options},%       define the special characters
+    keywordstyle={\color{mauve}},%                         and format them in black
+}
+
+\title{AIN - Sprachkonzepte}
+\author{Oskar Borkenhagen}
+\date{WS2022/23}
+
+\begin{document}
+    \maketitle
+    Bericht zu den Übungsaufgaben der Vorlesung Sprachkonzepte - AIN
+    \newpage
+
+    \input{pages/aufgabe-1}
+
+    \input{pages/aufgabe-2.tex}
+
+\end{document}
