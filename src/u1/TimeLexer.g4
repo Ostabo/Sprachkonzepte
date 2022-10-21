@@ -1,5 +1,5 @@
-// Time.g4
-lexer grammar Time;
+// TimeLexer.g4
+lexer grammar TimeLexer;
 
 Time12H: Default|Noon|Midnight;
 
