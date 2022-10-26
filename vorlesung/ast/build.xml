@@ -1,0 +1,54 @@
+<?xml version="1.0"?> 
+<!--
+    build.xml
+    Autor: H.Drachenfels
+    Erstellt am: 24.10.2021
+ -->
+<project default="jar">
+
+    <property name="grammar" value="Expr" />
+    <property name="antlr" value="../antlr-4.9.2-complete.jar" />
+
+    <target name="jar" depends="compile">
+        <jar destfile="${grammar}.jar">
+            <fileset dir="." includes="*.class"/>
+            <zipfileset includes="**/*.class" src="${antlr}"/>
+        </jar>
+    </target>
+
+    <target name="compile" depends="generate">
+        <javac debug="on" srcdir="." destdir="." sourcepath=""
+               listfiles="true" includeantruntime="false">
+            <classpath>
+               <pathelement location="${antlr}"/>
+            </classpath>
+            <include name="${grammar}*.java"/>
+        </javac>
+    </target>
+  
+    <target name="generate">
+        <echo>java -jar ${antlr} ${grammar}Lexer.g4</echo>
+        <java jar="${antlr}" fork="true" failonerror="true">
+            <arg value="${grammar}Lexer.g4" />
+        </java>
+        <echo>java -jar ${antlr} ${grammar}Parser.g4</echo>
+        <java jar="${antlr}" fork="true" failonerror="true">
+            <arg value="${grammar}Parser.g4" />
+        </java>
+    </target>
+
+    <target name="clean">
+        <delete>
+            <fileset dir="." includes="${grammar}.jar"/>
+            <fileset dir="." includes="*.class"/>
+            <fileset dir="." includes="${grammar}*.interp"/>
+            <fileset dir="." includes="${grammar}*.tokens"/>
+            <fileset dir="." includes="${grammar}Lexer.java"/>
+            <fileset dir="." includes="${grammar}Parser.java"/>
+            <fileset dir="." includes="${grammar}ParserListener.java"/>
+            <fileset dir="." includes="${grammar}ParserBaseListener.java"/>
+        </delete>
+    </target>
+
+</project>
+

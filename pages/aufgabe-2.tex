@@ -5,53 +5,52 @@ Definieren Sie deren Vokabular mit einer ANTLR4 lexer grammar und deren Grammati
 Erzeugen Sie für einige Beispieltexte mit Hilfe von \textit{org.antlr.v4.gui.TestRig} den Ableitungsbaum (Parse Tree).
 
 \subsection*{a - Lösung}
-Dargestellt ist der Lexer einer Sprache, welche die Klammerung von Ausdrücken überprüft.
+Dargestellt ist der Lexer einer Sprache, welche die korrekte Kreation einer Java Klasse darstellt.
 Erlaubt sind Variablen - also einzelne Buchstaben, sowie Zahlen.
-Konkateniert werden Ausdrücke mit den Operatoren: \texttt{+}, \texttt{-}, \texttt{*}, \texttt{/}.
+Parameter werden durch Komma getrennt und dürfen eigene neu erzeugte Klassen sein.
 \newline
 \begin{lstlisting}[label={lst:Aufgabe2a_lexer}, style=ANTLR]
-    // ParenthesesLexer.g4
-    lexer grammar ParenthesesLexer;
+    // CreationLexer.g4
+    lexer grammar CreationLexer;
 
-    ROUND_OPEN : '(';
-    ROUND_CLOSE : ')';
-    SQUARE_OPEN : '[';
-    SQUARE_CLOSE : ']';
-    CURLY_OPEN : '{';
-    CURLY_CLOSE : '}';
+    KEYWORD : 'new' ;
 
-    VARIABLE : [a-z];
+    NAME : [A-Za-z]+ ;
+    NUM : [0-9]+ ;
 
-    NUMBER : [1-9][0-9]*;
+    COMMA : ',' ;
 
-    OPERATOR: [+\-*/];
+    PAR_OPEN : '(' ;
+    PAR_CLOSE : ')' ;
 
-    WS : [ \t\r\n]+ -> skip;
+    WS : [ \t\r\n]+ ;
+
+    InvalidChar: . ;
 \end{lstlisting}
 
 \newpage
 
 Der dazugehörige Parser:
 \begin{lstlisting}[label={lst:Aufgabe2a_parser}, style=ANTLR]
-    // ParenthesesParser.g4
-    parser grammar ParenthesesParser;
-    options { tokenVocab=ParenthesesLexer; }
+    // CreationParser.g4
+    parser grammar CreationParser;
+    options { tokenVocab=CreationLexer; }
 
-    expr: expr OPERATOR expr | roundExpr | squareExpr | curlyExpr | atom;
+    start : expr EOF;
 
-    roundExpr: ROUND_OPEN expr ROUND_CLOSE;
-    squareExpr: SQUARE_OPEN expr SQUARE_CLOSE;
-    curlyExpr: CURLY_OPEN expr CURLY_CLOSE;
+    expr : KEYWORD WS NAME PAR_OPEN params PAR_CLOSE ;
 
-    atom: VARIABLE | NUMBER;
+    params : (param (COMMA WS? param)*)? ;
+
+    param : (expr | NAME | NUM) ;
 \end{lstlisting}
 \newline
 
 \begin{figure}[h]
     \centering
-    \subfloat[\centering Input: (1 + b)]{{ \includegraphics[width=5cm]{images/Aufgabe2a_parseTree_simple} }}
+    \subfloat[\centering Input: new Object(1, 2)]{{ \includegraphics[width=10cm]{images/Aufgabe2a_parseTree_simple} }}
     \qquad
-    \subfloat[\centering Input: (14 / a + 2)]{{ \includegraphics[width=5cm]{images/Aufgabe2a_parseTree} }}
+    \subfloat[\centering Input: new Object(1, new Array())]{{ \includegraphics[width=10cm]{images/Aufgabe2a_parseTree} }}
     \caption{Parse Tree Beispiele}
     \label{fig:Aufgabe2a_parseTree}
 \end{figure}
