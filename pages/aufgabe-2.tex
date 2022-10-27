@@ -7,7 +7,7 @@ Erzeugen Sie für einige Beispieltexte mit Hilfe von \textit{org.antlr.v4.gui.Te
 \subsection*{a - Lösung}
 Dargestellt ist der Lexer einer Sprache, welche die korrekte Kreation einer Java Klasse darstellt.
 Erlaubt sind Variablen - also einzelne Buchstaben, sowie Zahlen.
-Parameter werden durch Komma getrennt und dürfen eigene neu erzeugte Klassen sein.
+Parameter werden durch Komma getrennt und dürfen auch eigene, neu erzeugte Klassen sein.
 \newline
 \begin{lstlisting}[label={lst:Aufgabe2a_lexer}, style=ANTLR]
     // CreationLexer.g4
@@ -194,9 +194,9 @@ public class CreationBuilder extends CreationParserBaseListener {
 }
 \end{lstlisting}
 
-Für jedes angefangene Constructor Objekt wird ein neuer Stack angelegt in der \textit{enterExpr} Methode.
-Zusätzlich wird die Tiefe erhöht, um jeweils beim aktuell noch nicht abgeschlossenen Constructor Objekt zu bleiben.
-Dadurch bleibt die Reihenfolge erhalten und innerhalb eines noch nicht abgeschlossenen Constructor Objekts können
+Für jedes angefangene \textit{Constructor} Objekt wird ein neuer Stack angelegt in der \textit{enterExpr} Methode.
+Zusätzlich wird die Tiefe erhöht, um jeweils beim aktuell noch nicht abgeschlossenen \textit{Constructor} Objekt zu bleiben.
+Dadurch bleibt die Reihenfolge erhalten und innerhalb eines noch nicht abgeschlossenen \textit{Constructor} Objekts können
 \textit{Atom} Objekte und weitere \textit{Constructor} Objekte erstellt werden, ohne dass Konstruktoren die
 auf dem Stack liegenden Objekte in sich aufnehmen.
 \newline
