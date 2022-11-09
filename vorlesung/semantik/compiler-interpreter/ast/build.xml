@@ -1,0 +1,40 @@
+<?xml version="1.0"?> 
+<!--
+    build.xml
+    Autor: H.Drachenfels
+    Erstellt am: 23.9.2021
+ -->
+<project default="jar">
+
+    <property name="expr" value="../grammar/Expr.jar" />
+
+    <target name="jar" depends="compile">
+        <jar destfile="ExprAst.jar">
+            <fileset dir=".." includes="ast/*.class"/>
+            <zipfileset includes="**/*.class" src="${expr}"/>
+            <manifest>
+                <attribute name="Main-Class" value="ast.ExprBuilder"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="compile">
+        <javac debug="on" srcdir="." destdir=".." sourcepath=""
+               listfiles="true" includeantruntime="false">
+            <classpath>
+               <pathelement location="${expr}"/>
+            </classpath>
+            <include name="*.java"/>
+        </javac>
+    </target>
+  
+
+    <target name="clean">
+        <delete>
+            <fileset dir="." includes="ExprAst.jar"/>
+            <fileset dir="." includes="*.class"/>
+        </delete>
+    </target>
+
+</project>
+

@@ -1,0 +1,7 @@
+#!/usr/bin/dc
+6    # 6 auf den Stack legen
+k    # die 6 vom Stack nehmen und damit die Genauigkeit auf 6 Nachkommstellen einstellen
+1.2  # 1.2 auf den Stack legen
+34.5 # 34.5 auf den Stack legen
++    # die zwei obersten Zahlen vom Stack nehmen und deren Summe auf den Stack legen
+p    # nimmt den obersten Wert vom Stack und gibt ihn aus

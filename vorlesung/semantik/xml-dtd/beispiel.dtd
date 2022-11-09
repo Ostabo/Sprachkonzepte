@@ -1,0 +1,7 @@
+<!-- beispiel.dtd -->
+<!ELEMENT beispiel (gruss)>
+<!ELEMENT gruss EMPTY>
+<!ATTLIST gruss
+    formel CDATA #REQUIRED
+>
+

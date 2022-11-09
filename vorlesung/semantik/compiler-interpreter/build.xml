@@ -1,0 +1,45 @@
+<?xml version="1.0"?> 
+<!--
+    build.xml
+    Autor: H.Drachenfels
+    Erstellt am: 8.11.2022
+ -->
+<project default="jar">
+
+    <property name="exprast" value="ast/ExprAst.jar" />
+
+    <target name="jar" depends="compile">
+        <jar destfile="ExprCompilerInterpreter.jar">
+            <fileset dir="." includes="*.class"/>
+            <zipfileset includes="**/*.class" src="${exprast}"/>
+        </jar>
+    </target>
+
+    <target name="compile" depends="ast">
+        <javac debug="on" srcdir="." destdir="." sourcepath=""
+               listfiles="true" includeantruntime="false">
+            <classpath>
+               <pathelement location="${exprast}"/>
+            </classpath>
+            <include name="*.java"/>
+        </javac>
+    </target>
+ 
+    <target name="ast" depends="grammar">
+        <ant dir="ast"/>
+    </target>
+ 
+    <target name="grammar">
+        <ant dir="grammar"/>
+    </target>
+
+    <target name="clean">
+        <delete>
+            <fileset dir="." includes="ExprCompilerInterpreter.jar"/>
+            <fileset dir="." includes="*.class"/>
+        </delete>
+        <ant dir="grammar" target="clean"/>
+        <ant dir="ast" target="clean"/>
+    </target>
+
+</project>
