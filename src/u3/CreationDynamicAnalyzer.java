@@ -57,6 +57,10 @@ public class CreationDynamicAnalyzer extends CreationParserBaseListener {
             }
             sb.append(post);
 
+            if (ctx.params().param().size() != 1) {
+                throw new RuntimeException("Wrong number of parameters!");
+            }
+
             try {
                 FileWriter myWriter = new FileWriter("./src/u3/CreationDynamic.java");
                 myWriter.write(sb.toString());
@@ -66,13 +70,6 @@ public class CreationDynamicAnalyzer extends CreationParserBaseListener {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
             }
-        }
-    }
-
-    @Override
-    public void enterParam(CreationParser.ParamContext ctx) {
-        if (ctx.getChildCount() != 1) {
-            throw new RuntimeException("Wrong number of arguments for " + SillyClass.class.getSimpleName());
         }
     }
 
