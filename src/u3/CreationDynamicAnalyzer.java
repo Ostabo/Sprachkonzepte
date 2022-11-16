@@ -4,12 +4,10 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import u2.Creation;
 import u2.CreationLexer;
 import u2.CreationParser;
 import u2.CreationParserBaseListener;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -23,11 +21,12 @@ public class CreationDynamicAnalyzer extends CreationParserBaseListener {
                     System.out.println(
                     """;
     static String post = """
-            );
+                        
+                    );
                 }
             }""";
 
-    StringBuilder sb = new StringBuilder(pre);
+    StringBuilder sb = new StringBuilder(pre).append("\t\t\t");
 
     public static void main(String[] args) throws IOException {
         CreationLexer lexer = new CreationLexer(args.length >= 1 ?
@@ -47,7 +46,9 @@ public class CreationDynamicAnalyzer extends CreationParserBaseListener {
     @Override
     public void enterExpr(CreationParser.ExprContext ctx) {
         if (ctx.getChildCount() == 6) {
+
             if (!ctx.getChild(2).getText().equals(SillyClass.class.getSimpleName())) {
+
                 System.out.println(ctx.getChild(2).getText() + " == " + SillyClass.class.getSimpleName());
                 throw new RuntimeException("Wrong class name!");
             }
@@ -57,7 +58,7 @@ public class CreationDynamicAnalyzer extends CreationParserBaseListener {
             sb.append(post);
 
             try {
-                FileWriter myWriter = new FileWriter("CreationDynamic.java");
+                FileWriter myWriter = new FileWriter("./src/u3/CreationDynamic.java");
                 myWriter.write(sb.toString());
                 myWriter.close();
                 System.out.println("Successfully wrote to the file.");
