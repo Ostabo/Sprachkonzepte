@@ -4,7 +4,7 @@ lexer grammar CreationLexer;
 KEYWORD : 'new' ;
 
 NAME : [A-Za-z]+ ;
-NUM : [0-9]+ ;
+NUM : [0-9]+ [lL]?;
 
 COMMA : ',' ;
 
