@@ -1,0 +1,53 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% HEADER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper,oneside,11pt]{report}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PACKAGES & OPTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{include/packages}
+\input{include/options}
+\input{include/pdfinfo}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\pagestyle{plain}
+\pagenumbering{gobble}
+
+%% Deckblatt
+\includepdf[pages=-]{media/cover.pdf}
+
+%% TOC
+\tableofcontents
+
+%% Figures
+\listoffigures
+
+%% Listings
+\addcontentsline{toc}{chapter}{Listings}
+\lstlistoflistings
+
+\pagebreak
+
+%% Chapters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagenumbering{arabic}
+
+%% sec:aufgabe1
+\include{content/aufgabe-1}
+
+%% sec:aufgabe2
+\include{content/aufgabe-2}
+
+%% sec:aufgabe3
+\include{content/aufgabe-3}
+
+%% sec:aufgabe4
+\include{content/aufgabe-4}
+
+\end{document}
+

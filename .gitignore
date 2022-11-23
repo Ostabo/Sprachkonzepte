@@ -3,3 +3,13 @@
 /src/u1/out/
 /gen/
 /auxil/
+*.aux
+*.bbl
+*.blg
+*.lof
+*.log
+*.lol
+*.out
+*.tps
+*.toc
+*.tcp

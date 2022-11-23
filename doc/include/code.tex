@@ -1,0 +1,64 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Format-Optionen für Code
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\lstref}[1]{Quelltext \vref{#1}}
+
+\renewcommand{\lstlistingname}{Quelltext}
+\renewcommand{\lstlistlistingname}{Quelltextverzeichnis}
+
+\newcommand\ANTLRcolonstyle{\mdseries\ttfamily\color{black}}
+\newcommand\ANTLRkeystyle{\mdseries\ttfamily\color{olive}}
+\newcommand\ANTLRvaluestyle{\mdseries\ttfamily\color{mauve}}
+
+%% Define antlr language style; taken from yaml style at https://github.com/frederikspang/latex-yaml/blob/master/yaml-listing.sty
+\lstdefinelanguage{antlr} {
+  keywords={:,|,;,\&,fragment,lexer,grammar,parser,options},%       define the special characters
+	morekeywords={?,*,+}
+  basicstyle=\footnotesize\ANTLRkeystyle,                       % assuming a key comes first
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  moredelim=[s][\color{magenta}]{[}{]},% regex
+  moredelim=[s][\color{amber}]{\{}{\}},% regex
+	moredelim=*[s][\color{black}]{options}{\}},%  options in black (until trailing })
+  moredelim=**[il][\ANTLRcolonstyle{:}\ANTLRvaluestyle]{:},   % switch to value style at :
+	moredelim=**[il][\ANTLRcolonstyle{|}\ANTLRvaluestyle]{|},   % switch to value style at |
+  morestring=[b]',
+  morestring=[b]"
+}
+
+
+\lstnewenvironment{code}[1][]{
+	\lstset{
+		#1,
+		captionpos=b,
+		backgroundcolor=\color{brightgray},
+		basicstyle=\footnotesize\ttfamily,
+		keywordstyle=[1]\color{blue}\bfseries,
+		keywordstyle=[2]\color{cyan}\bfseries,
+		numberstyle=\color{gray},
+		commentstyle=\color{olive},
+		stringstyle=\color{mauve},
+		breakatwhitespace=true,
+		breaklines=true,
+		keepspaces=true,
+		numbers=left,
+		numbersep=7pt,
+		showspaces=false,
+		showstringspaces=false,
+		showtabs=false,
+		tabsize=4,
+		frame=none,
+		extendedchars=true,
+		literate=
+		{Ö}{{\"O}}1
+		{Ä}{{\"A}}1
+		{Ü}{{\"U}}1
+		{ß}{{\ss}}2
+		{ü}{{\"u}}1
+		{ä}{{\"a}}1
+		{ö}{{\"o}}1
+		{~}{{\textasciitilde}}1
+	}
+}{}

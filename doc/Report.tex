@@ -1,0 +1,54 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% HEADER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper,oneside,11pt]{report}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PACKAGES & OPTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{include/packages}
+\input{include/options}
+\input{include/pdfinfo}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\pagestyle{plain}
+\pagenumbering{gobble}
+
+%% Deckblatt
+\includepdf[pages=-]{media/cover.pdf}
+
+%% TOC
+\tableofcontents
+
+%% Figures
+\listoffigures
+
+%% Listings
+\addcontentsline{toc}{chapter}{Listings}
+\lstlistoflistings
+
+\pagebreak
+
+%% Chapters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagenumbering{arabic}
+\setcounter{chapter}{-1}
+
+%% sec:preamble
+\include{content/preamble}
+
+%% sec:root-me
+\include{content/root-me}
+
+%% sec:ctftime
+\include{content/ctftime}
+
+%% sec:moodle
+\include{content/moodle}
+
+\end{document}
+
