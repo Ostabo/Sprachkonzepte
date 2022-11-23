@@ -1,10 +1,8 @@
 package u4;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 public final class ProceduralFunctional {
     private ProceduralFunctional() { }
@@ -16,30 +14,15 @@ public final class ProceduralFunctional {
 
         long start = System.nanoTime();
 
-        var inList = readLines(input);
-        var emptiedList = removeEmptyLines(inList);
-        var shortenedList = removeShortLines(emptiedList);
-        int n = totalLineLengths(shortenedList);
+        int n = input.lines()
+                .filter(s -> !s.isEmpty())
+                .filter(s -> s.length() >= MIN_LENGTH)
+                .mapToInt(String::length)
+                .sum();
 
         long stop = System.nanoTime();
 
         System.out.printf("result = %d (%d microsec)%n", n, (stop - start) / 1000);
-    }
-
-    private static List<String> readLines(BufferedReader input) {
-        return input.lines().toList();
-    }
-
-    private static List<String> removeEmptyLines(List<String> lines) {
-        return lines.stream().filter(s -> !s.isEmpty()).toList();
-    }
-
-    private static List<String> removeShortLines(List<String> lines) {
-        return lines.stream().filter(s -> s.length() >= MIN_LENGTH).toList();
-    }
-
-    private static int totalLineLengths(List<String> lines) {
-        return lines.stream().mapToInt(String::length).sum();
     }
 
 } 
