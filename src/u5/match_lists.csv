@@ -1,0 +1,8 @@
+List 1;         List 2;                 Res
+[X,Y,Z];        [john,likes,fish];      X = john, Y = likes, Z = fish
+[cat];          [X|Y];                  X = cat, Y = []
+[X,Y|Z];        [mary,likes,wine];      X = mary, Y = likes, Z = [wine]
+[[the,Y]|Z];    [[X,hare],[is,here]];   X = the, Y = hare, Z = [[is,here]]
+[golden|T];     [golden,norfolk];       T = [norfolk]
+[white,horse];  [horse,X];              false
+[white|Q];      [P,horse];              P = white, Q = [horse]
