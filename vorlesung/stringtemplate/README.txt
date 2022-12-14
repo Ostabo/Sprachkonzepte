@@ -1,0 +1,1 @@
+HtmlNotenspiegel.java mit antlr-*-complete.jar im Classpath übersetzen und laufen lassen.

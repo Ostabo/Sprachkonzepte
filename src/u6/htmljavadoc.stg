@@ -1,0 +1,44 @@
+// htmljavadoc.stg
+delimiters "$", "$"
+
+docpage(p) ::= <<
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sprachkonzepte Aufgabe 6</title>
+</head>
+<body>
+<h1>Sprachkonzepte Aufgabe 6</h1>
+$p:classdoc(); separator="\n"$
+</body>
+</html>
+>>
+
+classdoc(l) ::= <<
+<h2>$l.name$</h2>
+<table>
+    <tbody>
+        <tr>
+            $if(!l.interfaces.isEmpty())$<th>Interface</th>$endif$
+            <th>Methods</th>
+        </tr>
+        $if(!l.interfaces.isEmpty())
+        $l:rowdoc(); separator="\n"$
+        $else$
+        $<tr><td>l.classMethods; separator="<br>"$</td></tr>$
+        $endif$
+    </tbody>
+</table>
+>>
+
+rowdoc(c) ::= <<
+<tr>
+    <td>
+    $c.name$
+    </td>
+    <td>
+        $c.methods; separator="<br>"$
+    </td>
+</tr>
+>>
