@@ -7,6 +7,12 @@ docpage(p) ::= <<
 <head>
     <meta charset="UTF-8">
     <title>Sprachkonzepte Aufgabe 6</title>
+
+    <style type="text/css">
+    html { background: whitesmoke; }
+    th, td { border-bottom: thin solid; padding: 4px; text-align: left; }
+    td { font-family: monospace }
+    </style>
 </head>
 <body>
 <h1>Sprachkonzepte Aufgabe 6</h1>
@@ -20,21 +26,19 @@ classdoc(l) ::= <<
 <table>
     <tbody>
         <tr>
-            $if(!l.interfaces.isEmpty())$<th>Interface</th>$endif$
+            $if(!l.hasNoInterface)$<th>Interface</th>$endif$
             <th>Methods</th>
         </tr>
-        $if(!l.interfaces.isEmpty())
-        $l:rowdoc(); separator="\n"$
-        $else$
-        $<tr><td>l.classMethods; separator="<br>"$</td></tr>$
-        $endif$
+        $l.interfaces:rowdoc(); separator="\n"$
+        $if(l.hasNoInterface && l.hasMethods)$<tr><td>$l.classMethods; separator="<br>"$</td></tr>
+        $elseif(!l.hasNoInterface && l.hasMethods)$<tr><td>$l.name$</td><td>$l.classMethods; separator="<br>"$</td></tr>$endif$
     </tbody>
 </table>
 >>
 
 rowdoc(c) ::= <<
 <tr>
-    <td>
+    <td valign="top">
     $c.name$
     </td>
     <td>

@@ -4,22 +4,23 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
 public final class HtmlJavaDoc {
 
     public static void main(String[] args) {
         ST templ = new STGroupFile("u6/htmljavadoc.stg").getInstanceOf("docpage");
 
-        Collection<Class<?>> classes = Arrays.asList(
-                HtmlJavaDoc.class,
-                ST.class,
-                STGroupFile.class,
-                Method.class,
-                Parameter.class
-        );
+        List<? extends Class<?>> classes = Arrays.stream(args)
+                .map(arg -> {
+                    try {
+                        return Class.forName(arg);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .toList();
         templ.add("p", classes.stream().map(ClassInfo::new).toList());
 
         String result = templ.render();
@@ -29,26 +30,30 @@ public final class HtmlJavaDoc {
 
 final class ClassInfo {
     public final String name;
-    public final Collection<String> classMethods;
-    public Collection<InterfaceInfo> interfaces;
+    public final boolean hasNoInterface;
+    public final boolean hasMethods;
+    public final List<String> classMethods;
+    public List<InterfaceInfo> interfaces;
 
     public ClassInfo(Class<?> c) {
         this.name = c.getName();
         this.interfaces = Arrays.stream(c.getInterfaces()).map(InterfaceInfo::new).toList();
-        if (this.interfaces.isEmpty()) {
-            this.classMethods = Arrays.stream(c.getMethods()).map(Method::getName).toList();
-        } else {
-            this.classMethods = null;
-        }
+        this.hasNoInterface = interfaces.isEmpty();
+
+        this.classMethods = Arrays.stream(c.getMethods())
+                .map(Method::toGenericString)
+                .filter(o -> this.interfaces.stream().noneMatch(i -> i.methods.contains(o)))
+                .toList();
+        this.hasMethods = !classMethods.isEmpty();
     }
 }
 
 final class InterfaceInfo {
     public final String name;
-    public final Collection<String> methods;
+    public final List<String> methods;
 
     public InterfaceInfo(Class<?> i) {
         this.name = i.getName();
-        this.methods = Arrays.stream(i.getMethods()).map(Method::getName).toList();
+        this.methods = Arrays.stream(i.getMethods()).map(Method::toGenericString).toList();
     }
 }
