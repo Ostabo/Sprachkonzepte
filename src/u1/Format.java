@@ -12,18 +12,20 @@ public class Format {
         System.out.println(formatter("xxx%1$d yyy"));
         System.out.println(formatter("%1$-02.3dyyy"));
         System.out.println(formatter("Wochentag: %tA Uhrzeit: %tT"));
+
+        System.out.printf("%1$d + %10$d", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
     }
 
     private static String formatter(String input) {
 
         Pattern patternGeneral =
                 Pattern.compile(
-                        "(%([1-9]\\$)?[-+#0,(\s]?\\d*(\\.\\d)?[bBhHsScCdoxXeEfgGaA%n])"
+                        "(%([1-9]+\\$)?[-+#0,(\s]?\\d*(\\.\\d)?[bBhHsScCdoxXeEfgGaA%n])"
                 );
 
         Pattern patternDate =
                 Pattern.compile(
-                        "(%([1-9]\\$)?[-+#0,(\s]?\\d*[tT][HIklLMSpQZzsBbhAaCYyjmdeRTrDFc])"
+                        "(%([1-9]+\\$)?[-+#0,(\s]?\\d*[tT][HIklLMSpQZzsBbhAaCYyjmdeRTrDFc])"
                 );
 
         Pattern patternLeftover =
