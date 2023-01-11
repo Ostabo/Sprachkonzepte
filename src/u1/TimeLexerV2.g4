@@ -14,7 +14,7 @@ HOUR : '1'[0-1]|[0-9];
 MINUTE : [0-5][0-9];
 SEPERATOR : ':';
 
-AM : 'a.m.' ;
-PM : 'p.m.' ;
+AM : 'a.m.'|'am'|'AM' ;
+PM : 'p.m.'|'pm'|'PM' ;
 
 WS: [ \t\r\n]+ -> skip;
