@@ -17,16 +17,18 @@ Achten Sie aber bei argment\_index, width und precision darauf, ob der Zahlberei
 \newline
 Beispieleingaben: \newline
 \begin{verbatim}
-	xxx \%d yyy\%n \newline
-	xxx\%1\$d yyy \newline
-	\%1\$-02.3dyyy \newline
-	Wochentag: \%tA Uhrzeit: \%tT \newline
+	xxx %d yyy%n
+	xxx%1$d yyy
+	%1$-02.3dyyy
+	Wochentag: %tA Uhrzeit: %tT
+\end{verbatim}
 	\newline
-	Beispielausgaben: \newline
-	TEXT("xxx ")FORMAT("\%d")TEXT(" yyy")FORMAT("\%n") \newline
-	TEXT("xxx")FORMAT("\%1\$d")TEXT(" yyy") \newline
-	FORMAT("\%1\$-02.3d")TEXT("yyy") \newline
-	TEXT("Wochentag:")FORMAT("\%tA")TEXT("Uhrzeit:")FORMAT("\%tT") \newline
+Beispielausgaben: \newline
+\begin{verbatim}
+	TEXT("xxx ")FORMAT("%d")TEXT(" yyy")FORMAT("%n")
+	TEXT("xxx")FORMAT("%1%d")TEXT(" yyy")
+	FORMAT("%1$-02.3d")TEXT("yyy")
+	TEXT("Wochentag:")FORMAT("%tA")TEXT("Uhrzeit:")FORMAT("%tT")
 \end{verbatim}
 
 \newline
@@ -34,19 +36,21 @@ Beispieleingaben: \newline
 \newpage
 \subsection*{a - Lösung}
 
-\begin{code}[language=java, caption={Funktion für Date/Time Formatter}, label={lst:Aufgabe1a}]//
+
+\subsubsection{Code}
+\begin{code}[language=java, caption={Funktion für Java Formatter}, label={lst:Aufgabe1a}]
 private static String formatter(String input) {
     Pattern patternGeneral =
             Pattern.compile(
-                    "(%([1-9]\\$)?[-+#0,(\s]?\\d*(\\.\\d)?[bBhHsScCdoxXeEfgGaA%n])"
+                    "(%([1-9]+\\$)?[-+#0,(\s]?\\d*(\\.\\d)?[bBhHsScCdoxXeEfgGaA%n])"
             );
     Pattern patternDate =
             Pattern.compile(
-                    "(%([1-9]\\$)?[-+#0,(\s]?\\d*[tT][HIklLMSpQZzsBbhAaCYyjmdeRTrDFc])"
+                    "(%([1-9]+\\$)?[-+#0,(\s]?\\d*[tT][HIklLMSpQZzsBbhAaCYyjmdeRTrDFc])"
             );
     Pattern patternLeftover =
             Pattern.compile(
-                    "(%[-+#0,(\s]?\\d*\\D)"
+                    "(%([1-9]+\\$)?[-+#0,(\s]?\\d*\\D)"
             );
     Pattern usePattern = Pattern.compile(
             patternGeneral.pattern()
@@ -70,10 +74,45 @@ private static String formatter(String input) {
 }
 \end{code}
 
+\subsubsection{Erklärung}
 Das Pattern ist realisiert anhand der \href{https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html}{Java Formatter Docs}. \newline
+
+Dazu unterteilen wir in 3 Unterscheidungen:
+\begin{itemize}
+	\item generelle Formate
+  \item Datum
+  \item Rest/Unspezifiziert
+\end{itemize}
+
+Was sich alle Formate teilen, ist das beginnende \verb|'%'|.
+Formate erlauben einen optionalen Format-Index anzugeben: \verb|'([1-9]+\$)?'|, sowie verschiedene Formattierungs-Optionen: \verb|'[-+#0,( ]?'| und eine optionale Angabe für die
+minimale Anzahl an Charakteren: \verb|'\d*'|.\newline
+Zusammengehängt ergibt das: \verb|'%([1-9]+\\$)?[-+#0,(\s]?\\d*'|.
+
+Bei den generellen Formaten gibt es die zusätzliche Option für die Anzahl Nachkommastellen: \verb|'(\.\d)?'| gefolgt von den möglichen Konversionen: \verb|'[bBhHsScCdoxXeEfgGaA%n]'|.\newline
+Für ein Datum fehlt noch \verb|'[tT]'| und Konversionen: \verb|'[HIklLMSpQZzsBbhAaCYyjmdeRTrDFc]'|.\newline
+Alle restlichen Konversionen sind illegal und reserviert für zukünftige Erweiterungen. Diese decken wir mit \verb|'\D'| ab.
+
 Anschließend wird der String in einzelne Teile zerlegt, die dann in einer Map gespeichert werden.
 Sortiert wird anhand der Position des Keys im Input-String. \newline
 Die fertige Map wird dann in einen String umgewandelt. \newline
+
+\subsubsection{Programmausgabe}
+
+\begin{code}[language=java, caption={Input für Formatter}, label={lst:Aufgabe1a_in}]
+public static void main(String[] args) {
+  System.out.println(formatter("xxx %d yyy%n"));
+  System.out.println(formatter("xxx%1$d yyy"));
+  System.out.println(formatter("%1$-02.3dyyy"));
+  System.out.println(formatter("Wochentag: %tA Uhrzeit: %tT"));
+}
+\end{code}
+
+\begin{figure}[h]
+	\includegraphics[width=\textwidth]{media/Aufgabe1a_formatter_output}
+	\caption{Ausgabe Java Formatter}
+	\label{img:Aufgabe1a_output}
+\end{figure}
 
 \newpage
 
@@ -82,6 +121,8 @@ Erkennen Sie mit ANTLR 4 Lexer-Regeln Zeitangaben im digitalen 12-Sunden-Format 
 Beachten Sie auch die alternativen Schreibweisen 12 midnight und 12 noon. Testen Sie mit \textit{org.antlr.v4.gui.TestRig}.
 
 \subsection*{b - Lösung}
+
+\subsubsection{Code}
 \begin{code}[language=antlr, caption={Lexer für Date/Time}, label={lst:Aufgabe1b}]
     lexer grammar TimeLexer;
 
@@ -94,6 +135,7 @@ Beachten Sie auch die alternativen Schreibweisen 12 midnight und 12 noon. Testen
     WS: [ \t\r\n]+ -> skip;
 \end{code}
 
+\subsubsection{Erklärung}
 \textbf{Lexer Grammatiken beschreiben die Token, die vom Lexer erkannt werden sollen.}
 Fragmente sind Teile der Grammatik, die nicht direkt erkannt werden, sondern nur in anderen Regeln verwendet werden. \newline
 Der Ansatz hier war die Zeitangaben in drei Teile zu zerlegen: \newline
@@ -130,5 +172,45 @@ Alternativ könnte man mehr Token beschreiben:
 \end{code}
 Allerdings wird die Lexer Grammatik hier etwas missbraucht, da die `TIME' Regel eher als Parser Regel genutzt wird.
 Lexer Regeln sollten eigentlich nur die Token beschreiben, die vom Lexer erkannt werden sollen. \newline
+
+
+\subsubsection{Programmausgabe}
+
+Korrekter Input:
+\begin{verbatim}
+12:00 AM
+12:00 a.m.
+12:00 am
+3:00 am
+1:12 am
+
+Noon
+12 noon
+Midnight
+11:59 PM
+\end{verbatim}
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{media/Aufgabe1b_correct_test}
+	\caption{Ausgabe TimeLexer richtiger Input}
+	\label{img:Aufgabe1b_correct_test}
+\end{figure}
+
+Falscher Input:
+\begin{verbatim}
+0:00 am
+0:00 pm
+12:00
+noon
+12 Noon
+13:00 PM
+\end{verbatim}
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{media/Aufgabe1b_wrong_test}
+	\caption{Ausgabe TimeLexer falscher Input}
+	\label{img:Aufgabe1b_wrong_test}
+\end{figure}
+
 
 \newpage
