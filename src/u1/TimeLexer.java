@@ -16,7 +16,7 @@ public class TimeLexer extends Lexer {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		Time12H=1, AM=2, PM=3, WS=4;
+		Time12H=1, WS=2;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -39,7 +39,7 @@ public class TimeLexer extends Lexer {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "Time12H", "AM", "PM", "WS"
+			null, "Time12H", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -101,7 +101,7 @@ public class TimeLexer extends Lexer {
 	public ATN getATN() { return _ATN; }
 
 	public static final String _serializedATN =
-		"\u0004\u0000\u0004e\u0006\uffff\uffff\u0002\u0000\u0007\u0000\u0002\u0001"+
+		"\u0004\u0000\u0002e\u0006\uffff\uffff\u0002\u0000\u0007\u0000\u0002\u0001"+
 		"\u0007\u0001\u0002\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004"+
 		"\u0007\u0004\u0002\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0001\u0000"+
 		"\u0001\u0000\u0001\u0000\u0003\u0000\u0013\b\u0000\u0001\u0001\u0001\u0001"+
@@ -118,13 +118,12 @@ public class TimeLexer extends Lexer {
 		"\u0004S\b\u0004\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001"+
 		"\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0003\u0005]\b\u0005\u0001"+
 		"\u0006\u0004\u0006`\b\u0006\u000b\u0006\f\u0006a\u0001\u0006\u0001\u0006"+
-		"\u0000\u0000\u0007\u0001\u0001\u0003\u0000\u0005\u0000\u0007\u0000\t\u0002"+
-		"\u000b\u0003\r\u0004\u0001\u0000\u0005\u0001\u000019\u0001\u000001\u0001"+
-		"\u000005\u0001\u000009\u0003\u0000\t\n\r\r  m\u0000\u0001\u0001\u0000"+
-		"\u0000\u0000\u0000\t\u0001\u0000\u0000\u0000\u0000\u000b\u0001\u0000\u0000"+
-		"\u0000\u0000\r\u0001\u0000\u0000\u0000\u0001\u0012\u0001\u0000\u0000\u0000"+
-		"\u0003!\u0001\u0000\u0000\u0000\u00053\u0001\u0000\u0000\u0000\u0007H"+
-		"\u0001\u0000\u0000\u0000\tR\u0001\u0000\u0000\u0000\u000b\\\u0001\u0000"+
+		"\u0000\u0000\u0007\u0001\u0001\u0003\u0000\u0005\u0000\u0007\u0000\t\u0000"+
+		"\u000b\u0000\r\u0002\u0001\u0000\u0005\u0001\u000019\u0001\u000001\u0001"+
+		"\u000005\u0001\u000009\u0003\u0000\t\n\r\r  k\u0000\u0001\u0001\u0000"+
+		"\u0000\u0000\u0000\r\u0001\u0000\u0000\u0000\u0001\u0012\u0001\u0000\u0000"+
+		"\u0000\u0003!\u0001\u0000\u0000\u0000\u00053\u0001\u0000\u0000\u0000\u0007"+
+		"H\u0001\u0000\u0000\u0000\tR\u0001\u0000\u0000\u0000\u000b\\\u0001\u0000"+
 		"\u0000\u0000\r_\u0001\u0000\u0000\u0000\u000f\u0013\u0003\u0003\u0001"+
 		"\u0000\u0010\u0013\u0003\u0005\u0002\u0000\u0011\u0013\u0003\u0007\u0003"+
 		"\u0000\u0012\u000f\u0001\u0000\u0000\u0000\u0012\u0010\u0001\u0000\u0000"+
