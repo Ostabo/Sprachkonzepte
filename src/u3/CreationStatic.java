@@ -9,12 +9,8 @@ import u2.CreationParser;
 import u2.CreationParserBaseListener;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 public class CreationStatic extends CreationParserBaseListener {
-
-    Set<String> usedClassnames = new HashSet<>();
 
     public static void main(String[] args) throws IOException {
         CreationLexer lexer = new CreationLexer(args.length >= 1 ?
@@ -28,12 +24,6 @@ public class CreationStatic extends CreationParserBaseListener {
         }
 
         new ParseTreeWalker().walk(new CreationStatic(), tree);
-    }
-
-    @Override
-    public void enterExpr(CreationParser.ExprContext ctx) {
-        var cName = ctx.getChild(2).getText();
-        usedClassnames.add(cName);
     }
 
     @Override
