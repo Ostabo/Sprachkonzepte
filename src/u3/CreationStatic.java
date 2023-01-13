@@ -37,7 +37,14 @@ public class CreationStatic extends CreationParserBaseListener {
 
             if (literal.endsWith("L") || literal.endsWith("l")) {
                 System.out.print("Expected Long: ");
-                if (Long.parseLong(literal.substring(0, literal.length() - 1)) > Integer.MAX_VALUE) {
+                long value;
+                try {
+                    value = Long.parseLong(literal.substring(0, literal.length() - 1));
+                } catch (NumberFormatException e) {
+                    System.err.println("Bigger than Long!");
+                    throw new RuntimeException(e);
+                }
+                if (value > Integer.MAX_VALUE) {
                     System.out.println("\u001B[42m Found Long \u001B[0m");
                 } else {
                     System.err.println("Wrong range!");
