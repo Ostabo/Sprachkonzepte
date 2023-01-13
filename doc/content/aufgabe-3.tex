@@ -3,3 +3,88 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Aufgabe 3}
 \label{sec:aufgabe3}
+
+\subsection*{a)}
+Sie haben in Aufgabe 2 eine kleine Sprache mit konkreter und abstrakter Syntax definiert.
+Lässt sich eine statische Semantik für Ihre abstrakte Syntax angeben?
+Erlaubt Ihre konkrete Syntax Formulierungen, die die statische Semantik verletzen?
+Ergänzen Sie gegebenenfalls eine statische Semantikprüfung für Ihre Sprache.
+
+Falls Ihre eigene Sprache hinsichtlich statischer Sematik nichts hergibt,
+laden Sie die ANTLR4 Java Grammatik herunter und schreiben Sie mit Hilfe der generierten Listener-Klasse eine statische Semantikprüfung,
+die sicherstellt, dass ganzzahlige Literale ohne L im Zahlbereich von int und mit L im Zahlbereich von long liegen.
+
+\subsection*{a - Lösung}
+\newline
+\begin{code}[language=java, caption={ParserListener für statische Syntax}, label={lst:Aufgabe3a}]
+public class CreationStatic extends CreationParserBaseListener {
+
+    public static void main(String[] args) throws IOException {
+        CreationLexer lexer = new CreationLexer(args.length >= 1 ?
+        CharStreams.fromString(args[0]) : CharStreams.fromStream(System.in));
+        CreationParser parser = new CreationParser(new CommonTokenStream(lexer));
+        ParseTree tree = parser.param();
+
+        if (parser.getNumberOfSyntaxErrors() > 0) {
+            System.err.printf("%d error(s) detected%n", parser.getNumberOfSyntaxErrors());
+            System.exit(1);
+        }
+
+        new ParseTreeWalker().walk(new CreationStatic(), tree);
+    }
+
+    @Override
+    public void enterParam(CreationParser.ParamContext ctx) {
+
+        if (ctx.start.getType() == CreationParser.NUM) {
+            System.out.println("Found a Number: " + ctx.getText());
+
+            var literal = ctx.NUM().getText();
+            System.out.println(literal);
+
+            if (literal.endsWith("L") || literal.endsWith("l")) {
+                System.out.print("Expected Long: ");
+                long value;
+                try {
+                    value = Long.parseLong(literal.substring(0, literal.length() - 1));
+                } catch (NumberFormatException e) {
+                    System.err.println("Bigger than Long!");
+                    throw new RuntimeException(e);
+                }
+                if (value > Integer.MAX_VALUE) {
+                    System.out.println("Found Long!");
+                } else {
+                    System.err.println("Wrong range!");
+                }
+
+            } else {
+                System.out.print("Expected Integer: ");
+
+                try {
+                    Integer.parseInt(literal);
+                    System.out.println("Found Integer!");
+                } catch (NumberFormatException e) {
+                    System.err.println("Wrong range!");
+                }
+            }
+        }
+    }
+}
+\end{code}
+
+Umsetzung der statischen Semantikprüfung mit der ANTLR4 Java Grammatik.
+Beim Parsen wird jeder Paramter mit der \textit{"enterParam"} Methode des Listeners überprüft, ob dieser ein im Falle einer Zahl, ein Integer oder Long ist.
+Dies geschiet indem aus dem Kontext der Regeltyp hergeleitet wird.
+Sollte der Typ \textit{"NUM"} sein, wird überprüft ob der Literalwert mit einem \textit{"L"} oder \textit{"l"} für \textit{Long} endet.
+Falls dies der Fall ist, wird der Wert in einen Long geparst und überprüft ob dieser größer als der Maximalwert von Integer ist.
+Somit ist sichergestellt, dass der Wert im Bereich von Long liegt.
+Falls dies nicht der Fall ist, wird der Wert in einen Integer geparst und somit indirekt überprüft ob dieser im Bereich von Integer liegt.
+Das Parsen ist jeweils in einem Try-Catch Block, da bei einem zu großen Wert eine \textit{"NumberFormatException"} geworfen wird.
+Dadurch ist gegeben, dass die Wertebereiche stimmen.
+
+\subsection*{b)}
+Programmieren Sie für Ihre eigene Sprache aus Aufgabe 2 mindestens eine dynamische Semantik.
+
+\subsection*{b - Lösung}
+\newline
+
