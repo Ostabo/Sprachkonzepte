@@ -25,4 +25,4 @@ public final class ProceduralFunctional {
         System.out.printf("result = %d (%d microsec)%n", n, (stop - start) / 1000);
     }
 
-} 
+}
