@@ -33,7 +33,6 @@ public class CreationStatic extends CreationParserBaseListener {
             System.out.println("Found a Number: " + ctx.getText());
 
             var literal = ctx.NUM().getText();
-            System.out.println(literal);
 
             if (literal.endsWith("L") || literal.endsWith("l")) {
                 System.out.print("Expected Long: ");
@@ -41,13 +40,13 @@ public class CreationStatic extends CreationParserBaseListener {
                 try {
                     value = Long.parseLong(literal.substring(0, literal.length() - 1));
                 } catch (NumberFormatException e) {
-                    System.err.println("Bigger than Long!");
+                    System.out.println("Bigger than Long!");
                     throw new RuntimeException(e);
                 }
                 if (value > Integer.MAX_VALUE) {
                     System.out.println("\u001B[42m Found Long \u001B[0m");
                 } else {
-                    System.err.println("Wrong range!");
+                    System.out.println("\u001B[31m Wrong range! \u001B[0m");
                 }
 
             } else {
@@ -57,10 +56,10 @@ public class CreationStatic extends CreationParserBaseListener {
                     Integer.parseInt(literal);
                     System.out.println("\u001B[42m Found Integer \u001B[0m");
                 } catch (NumberFormatException e) {
-                    System.err.println("Wrong range!");
+                    System.out.println("\u001B[31m Wrong range! \u001B[0m");
                 }
             }
-
+            System.out.println();
         }
     }
 
