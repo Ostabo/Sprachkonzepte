@@ -28,6 +28,14 @@
   morestring=[b]"
 }
 
+\lstdefinelanguage{prolog} {
+  keywords={zug,verbindung,sum,append,:,-,.,+,=,>,=},%       define the special characters
+  basicstyle=\footnotesize\ANTLRkeystyle,                       % assuming a key comes first
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+}
+
 
 \lstnewenvironment{code}[1][]{
 	\lstset{

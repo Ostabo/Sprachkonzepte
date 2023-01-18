@@ -14,7 +14,7 @@ Dargestellt ist der Lexer einer Sprache, welche die korrekte Kreation einer Java
 Erlaubt sind Variablen - also einzelne Buchstaben, sowie Zahlen.
 Parameter werden durch Komma getrennt und dürfen auch eigene, neu erzeugte Klassen sein.
 \newline
-\begin{code}[language=antlr, caption={Lexer Grammar A2a} ,label={lst:Aufgabe2a_lexer}]
+\begin{code}[language=antlr, caption={Lexer Grammar} ,label={lst:Aufgabe2a_lexer}]
     // CreationLexer.g4
     lexer grammar CreationLexer;
 
@@ -36,7 +36,7 @@ Parameter werden durch Komma getrennt und dürfen auch eigene, neu erzeugte Klas
 \newpage
 
 Der dazugehörige Parser:
-\begin{code}[language=antlr, caption={Parser Grammar A2a}, label={lst:Aufgabe2a_parser}]
+\begin{code}[language=antlr, caption={Parser Grammar}, label={lst:Aufgabe2a_parser}]
     // CreationParser.g4
     parser grammar CreationParser;
     options { tokenVocab=CreationLexer; }
