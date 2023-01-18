@@ -3,7 +3,6 @@ package u6;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,7 +40,7 @@ final class ClassInfo {
         this.hasNoInterface = interfaces.isEmpty();
 
         this.classMethods = Arrays.stream(c.getMethods())
-                .map(Method::toGenericString)
+                .map(x -> x.getReturnType() + " " + x.getName() + "(" + Arrays.toString(x.getParameterTypes()) + ")")
                 .filter(o -> this.interfaces.stream().noneMatch(i -> i.methods.contains(o)))
                 .toList();
         this.hasMethods = !classMethods.isEmpty();
@@ -54,6 +53,10 @@ final class InterfaceInfo {
 
     public InterfaceInfo(Class<?> i) {
         this.name = i.getName();
-        this.methods = Arrays.stream(i.getMethods()).map(Method::toGenericString).toList();
+        this.methods = Arrays.stream(i.getMethods()).map(
+                x -> x.getReturnType() + " " + x.getName()
+                        + "(" + Arrays.toString(x.getParameterTypes())
+                        .replace('[', ' ').replace(']', ' ') + ")"
+        ).toList();
     }
 }

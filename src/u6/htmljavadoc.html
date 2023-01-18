@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sprachkonzepte Aufgabe 6</title>
+
+    <style>
+    html { background: whitesmoke; }
+    th, td { border-bottom: thin solid; padding: 4px; text-align: left; }
+    td { font-family: monospace }
+    </style>
+</head>
+<body>
+<h1>Sprachkonzepte Aufgabe 6</h1>
+<h2>java.lang.String</h2>
+<table>
+    <tbody>
+        <tr>
+            <th>Interface</th>
+            <th>Methods</th>
+        </tr>
+        <tr>
+            <td valign="top">
+            java.io.Serializable
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+            java.lang.Comparable
+            </td>
+            <td>
+                int compareTo( class java.lang.Object )
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+            java.lang.CharSequence
+            </td>
+            <td>
+                int length(  )<br>class java.lang.String toString(  )<br>int compare( interface java.lang.CharSequence, interface java.lang.CharSequence )<br>char charAt( int )<br>boolean isEmpty(  )<br>interface java.util.stream.IntStream codePoints(  )<br>interface java.lang.CharSequence subSequence( int, int )<br>interface java.util.stream.IntStream chars(  )
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+            java.lang.constant.Constable
+            </td>
+            <td>
+                class java.util.Optional describeConstable(  )
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+            java.lang.constant.ConstantDesc
+            </td>
+            <td>
+                class java.lang.Object resolveConstantDesc( class java.lang.invoke.MethodHandles$Lookup )
+            </td>
+        </tr>
+    </tbody>
+</table>
+<h2>java.util.Iterator</h2>
+<table>
+    <tbody>
+        <tr>
+            <th>Methods</th>
+        </tr>
+        <tr><td>void remove([])<br>void forEachRemaining([interface java.util.function.Consumer])<br>boolean hasNext([])<br>class java.lang.Object next([])</td></tr>
+    </tbody>
+</table>
+<h2>java.time.Month</h2>
+<table>
+    <tbody>
+        <tr>
+            <th>Interface</th>
+            <th>Methods</th>
+        </tr>
+        <tr>
+            <td valign="top">
+            java.time.temporal.TemporalAccessor
+            </td>
+            <td>
+                int get( interface java.time.temporal.TemporalField )<br>long getLong( interface java.time.temporal.TemporalField )<br>class java.lang.Object query( interface java.time.temporal.TemporalQuery )<br>class java.time.temporal.ValueRange range( interface java.time.temporal.TemporalField )<br>boolean isSupported( interface java.time.temporal.TemporalField )
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+            java.time.temporal.TemporalAdjuster
+            </td>
+            <td>
+                interface java.time.temporal.Temporal adjustInto( interface java.time.temporal.Temporal )
+            </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

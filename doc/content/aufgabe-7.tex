@@ -1,0 +1,61 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Scriptsprachen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Aufgabe 7}
+\label{sec:aufgabe7}
+
+\subsection*{Aufgabe}
+Implementieren Sie eine kleine Anwendung mit einer Scriptsprache und analysieren Sie, welche typischen Eigenschaften einer Scriptsprache Sie dabei ausnutzen.
+
+\textit{Vorschläge:}\newline
+\textit{JavaScript in einer Webseite}\newline
+\textit{Abfrage eines Webservice mit Python, z.B. Feiertage bei feiertage-api.de oder Wechselkurse bei zoll.de -> Service -> Online-Fachanwendungen ...}
+
+\newline
+\subsection*{Lösung}
+\newline
+\begin{code}[language=javascript, caption={JavaScript}, label={lst:Aufgabe7_js}]
+const url = 'https://feiertage-api.de/api/';
+const params = '?jahr=2022&nur_land=BW';
+let request = url + params
+
+function isValidRequest(url) {
+    return !!url.match(/^https?:\/\/.+.(de|com|net)\/\w*\/?(\?\w+=.+(&\D+=.+)*)?$/)
+}
+
+if (isValidRequest(request)) {
+    const response = fetch(request)
+    response
+        .then(r => r.json())
+        .then(data => {
+            console.log(data)
+            console.log(data['Karfreitag'])
+            request = data;
+            console.log(request);
+        });
+}
+\end{code}
+\newline
+
+Das Skript fragt die Feiertage für das Jahr 2022 in Baden-Württemberg ab.
+Dabei sind einige Eigenschaften einer Skriptsprache zu erkennen.
+Zum einen werden Konstanten und Variablen, Datentypen automatisch zugewiesen.
+So sind die Variablen \textit{url} und \textit{params} vom Typ \textit{String} - \textit{request} zunächst auch.
+Mit der Funktion \textit{isValidRequest} wird überprüft, ob die URL gültig ist.
+Dabei wird die URL mit einem regulären Ausdruck überprüft.
+Die Methode \textit{match} gibt ein Array zurück, wenn der reguläre Ausdruck mit der URL übereinstimmt - ansonsten \textit{null}.
+Mit dem Doppel-Not-Operator \textit{(!!)} wird das Ergebnis auf \textit{true} oder \textit{false} umgewandelt.
+Hier kommt die Eigenschaft der dynamischen Typisierung zum Tragen.
+\newline
+Sollte die URL gültig sein, wird eine Anfrage an die URL, mit der Methode \textit{fetch}, gesendet.
+Die Antwort wird in der Variable \textit{response} gespeichert. Auch hier wird die dynamische Typisierung genutzt.
+Die Antwort ist vom Typ \textit{Promise}.
+Mit der Methode \textit{then} wird auf den Promise gewartet und die Antwort in der Lambda-Variablen \textit{r} gespeichert.
+Das empfangene JSON-Objekt wird in die Variable \textit{data} übergeben und auf die Konsole ausgegeben.
+Um auf die einzelnen Elemente des JSON-Objekts zuzugreifen, wird der Schlüssel verwendet.
+In diesem Fall ist der Schlüssel der Name des Feiertags.
+Hier wird also der String \textit{Karfreitag} als Array-Index verwendet.
+Abschließend wird die Variable \textit{request} mit dem JSON-Objekt überschrieben und auf der Konsole ausgegeben.
+Somit hat sich der Datentyp von \textit{String} implizit auf \textit{Object} geändert.
+
+\newline

@@ -8,7 +8,7 @@ docpage(p) ::= <<
     <meta charset="UTF-8">
     <title>Sprachkonzepte Aufgabe 6</title>
 
-    <style type="text/css">
+    <style>
     html { background: whitesmoke; }
     th, td { border-bottom: thin solid; padding: 4px; text-align: left; }
     td { font-family: monospace }
@@ -30,8 +30,7 @@ classdoc(l) ::= <<
             <th>Methods</th>
         </tr>
         $l.interfaces:rowdoc(); separator="\n"$
-        $if(l.hasNoInterface && l.hasMethods)$<tr><td>$l.classMethods; separator="<br>"$</td></tr>
-        $elseif(!l.hasNoInterface && l.hasMethods)$<tr><td>$l.name$</td><td>$l.classMethods; separator="<br>"$</td></tr>$endif$
+        $if(l.hasNoInterface && l.hasMethods)$<tr><td>$l.classMethods; separator="<br>"$</td></tr>$endif$
     </tbody>
 </table>
 >>

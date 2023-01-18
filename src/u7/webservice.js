@@ -18,4 +18,3 @@ if (isValidRequest(request)) { // Wenn request valid ist, dann fetch
             console.log(request);
         });
 }
-
